@@ -1,0 +1,29 @@
+<!doctype html>
+<title>user:{{ username }}</title>
+    <a href={{ url_for('show_posts',page=1,posts_perpage=10) }}>main page</a>
+{% if session['username']==username %} 
+    <a href={{ url_for('logout') }}>logout</a>
+<a href='{{ url_for('add_post',username=username) }}'>add post</a>
+{% endif %}
+{% for post in posts %}
+   <h1> {{ post.title }}</h1>
+   <h3> {{ post.text }} </h3>
+   {%  if session['username']==username %}
+   	<h4> <a href={{ url_for('delete',post_id=post.id) }}>delete</a>
+   {% endif %}
+{% else %}
+	{% if session['username']==username %} 
+         	<h1> write something,please... </h1>
+	{% else %}
+		<h1> He is so lazy! HeHeHe...</h1>
+	{% endif %}
+	
+{% endfor %}
+<br>
+{% for i in range(1,posts_page+1) %}
+<a href={{ url_for('users',username=username,page=i,posts_perpage=posts_perpage) }}> {{ i }}</a>
+{% endfor %}
+<form action= {{ url_for('users',username=username,page=1,posts_perpage=posts_perpage) }} method=post>
+	<h4>posts listed on a page:</h4>
+	<input type=number name=posts_perpage size=1>
+</form>

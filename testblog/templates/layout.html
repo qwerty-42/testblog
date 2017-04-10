@@ -1,0 +1,15 @@
+<!doctype html>
+<title>Test blog</title>
+{% if not 'username' in session  %}
+  <a href='{{ url_for('register') }}'>register</a>
+  <a href='{{ url_for('login') }}'>log in</a>
+{% else %}
+<h>hello,<a href={{ url_for('users',username=session['username'],page=1,posts_perpage=10) }}>{{ session['username'] }}</a></h>
+  <a href='{{ url_for('logout') }}'>log out</a>
+{% endif %}
+<br><br>
+{% for message in get_flashed_messages() %}
+  <br>{{ message }}<br>
+{% endfor %}
+{% block body %}
+{% endblock %}
